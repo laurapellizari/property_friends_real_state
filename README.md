@@ -73,11 +73,15 @@ The kedro project and MLFlow implementations can be found in the directory prope
   The API is basically composed of two routes: one get and the other post. The get route is responsible for checking the health of the application and the post route for loading the saved model and performing its predict.
   
   The API project can be found in the property-friends-real-state-api directory.
-
+  
 ## Deploy - [Docker]
 
   Finally, the entire process is modularized in a docker. Therefore, when running docker, the model will be trained via kedro, saved via mlflow and exposed via FastAPI.
-
+  
+  ![alt text](https://github.com/laurapellizari/property_friends_real_state/blob/main/images/fastapi.png)
+  
+  ![alt text](https://github.com/laurapellizari/property_friends_real_state/blob/main/images/response.png)
+  
 <!-- Improvements -->
 ## Improvements
 
