@@ -6,7 +6,7 @@
     <br />
     <a href="https://github.com/laurapellizari/property_friends_real_state/blob/main/images/kedro_viz.png">Project Pipeline</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Architecture</a>
+    <a href="https://github.com/laurapellizari/property_friends_real_state/blob/main/images/arq.png">Architecture</a>
   </p>
 </div>
 
