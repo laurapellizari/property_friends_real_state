@@ -1,0 +1,15 @@
+artifact_uri: file:///home/lpp/bain_case/property-friends-real-state/mlruns/843753942875354031/a96c63d346434421aa7e69e083020302/artifacts
+end_time: 1691082643263
+entry_point_name: ''
+experiment_id: '843753942875354031'
+lifecycle_stage: active
+run_id: a96c63d346434421aa7e69e083020302
+run_name: __default__
+run_uuid: a96c63d346434421aa7e69e083020302
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1691082636699
+status: 3
+tags: []
+user_id: lpp

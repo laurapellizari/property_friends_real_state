@@ -1,0 +1,5 @@
+run: 
+	docker build -t deploy -f DockerFile .
+
+deploy;
+	docker run -p 5000:5000 -p 8000:8000 deploy:latest

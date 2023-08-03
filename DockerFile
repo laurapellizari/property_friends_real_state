@@ -1,0 +1,40 @@
+# Use uma imagem base do Python com Kedro e MLflow
+FROM python:3.8
+
+# Atualize o gerenciador de pacotes pip
+RUN pip install --upgrade pip
+
+COPY /requirements.txt .
+RUN pip install -r requirements.txt
+
+ENV SERVER_PORT 5000
+ENV SERVER_HOST 127.0.0.1
+ENV ARTIFACT_STORE /app/property-friends-real-state/model
+
+ENV MLFLOW_SERVER_HOST 0.0.0.0
+
+# Copie o código do projeto Kedro para o diretório de trabalho no contêiner
+COPY property-friends-real-state /app/property-friends-real-state
+
+# Defina o diretório de trabalho como o diretório do projeto Kedro
+WORKDIR /app/property-friends-real-state
+
+RUN kedro mlflow init
+# Execute o Kedro para preparar e executar o pipeline (ou outros comandos Kedro necessários)
+RUN kedro run
+
+COPY run.sh /app/run.sh
+RUN chmod +x /app/run.sh
+
+# Copie o código da API FastAPI para o diretório de trabalho no contêiner
+COPY property-friends-real-state-api /app/property-friends-real-state-api/
+
+# Exponha a porta da API (por exemplo, 8000)
+EXPOSE 8000
+EXPOSE 5000
+
+# Defina o diretório de trabalho como o diretório da API FastAPI
+WORKDIR /app/property-friends-real-state-api/src
+
+# Inicie o servidor FastAPI
+CMD ["bash", "-c", "/app/run.sh & uvicorn api_main:app --host 127.0.0.1 --host 0.0.0.0 --port 5000 --port 8000"]

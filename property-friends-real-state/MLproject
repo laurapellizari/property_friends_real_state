@@ -1,0 +1,7 @@
+name: property-friends-real-state
+
+conda_env: conda.yaml
+
+entry_points:
+    main:
+        command: "kedro run"

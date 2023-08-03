@@ -1,0 +1,11 @@
+name: mlprojects
+
+channels:
+  - defaults
+
+dependencies: 
+  - python=3.8
+  - pip:
+    - kedro==0.18.12
+    - mlflow==2.5
+    - scikit-learn

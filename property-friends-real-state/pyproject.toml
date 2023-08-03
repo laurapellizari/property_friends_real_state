@@ -1,0 +1,17 @@
+[tool.kedro]
+package_name = "property_friends_real_state"
+project_name = "property_friends_real_state"
+kedro_init_version = "0.18.11"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = """
+--cov-report term-missing \
+--cov src/property_friends_real_state -ra"""
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]

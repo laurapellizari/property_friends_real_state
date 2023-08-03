@@ -1,0 +1,19 @@
+artifact_path: property-friends-real-state
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.8.0
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.0.2
+mlflow_version: 2.5.0
+model_uuid: bd2b6e33b7bb487ab824cf6e6bd55cd0
+run_id: fd0a71406f1c4e84bb7ed55fd5091b45
+utc_time_created: '2023-08-03 03:49:31.994727'

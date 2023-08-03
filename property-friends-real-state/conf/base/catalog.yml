@@ -1,0 +1,17 @@
+train: 
+  type: pandas.CSVDataSet 
+  filepath: data/01_raw/train.csv
+
+test:
+  type: pandas.CSVDataSet 
+  filepath: data/01_raw/test.csv
+
+metrics:
+  type: pandas.CSVDataSet
+  filepath: data/08_reporting/metrics_train.csv
+
+pipeline:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  data_set:
+    type: pickle.PickleDataSet
+    filepath: data/06_models/trained_model.pkl
