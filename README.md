@@ -92,7 +92,13 @@ O projeto kedro e as implementações do MLFlow podem ser encontrado no diretór
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Para reproduzir o experimento, é necessário clonar o repositório, contruir a imagem docker:
+Para reproduzir o experimento, é necessário clonar o repositório, e subir os dados do cliente no seguinte diretorio:
+
+  ```sh
+  property-friends-real-state/data/01_raw
+  ```
+
+Construir a imagem docker:
   ```sh
     docker build -t deploy -f DockerFile .
   ```
