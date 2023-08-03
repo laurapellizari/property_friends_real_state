@@ -4,7 +4,7 @@
   <p align="center">
     Production of a model to estimate property valuations for a real estate client in Chile.
     <br />
-    <a href="https://github.com/github_username/repo_name">Project Pipeline</a>
+    <a href="https://github.com/laurapellizari/property_friends_real_state/blob/main/images/kedro_viz.png">Project Pipeline</a>
     ·
     <a href="https://github.com/github_username/repo_name/issues">Architecture</a>
   </p>
@@ -13,104 +13,110 @@
 <!-- ABOUT THE PROJECT -->
 # About The Project
 
-O modelo foi construido com o objetivo de prever o custo de propriedades residenciais no Chile com base nas características da propriedade. Para sua produtizacao foram demandados alguns requisitos como: 
+The model was built with the objective of predicting the cost of residential properties in Chile based on the characteristics of the property. For its production, some requirements were demanded, such as:
 
-- Pipeline robusto que automatize o processo de treinamento, avaliação e implantação do modelo, o qual tenha uma abstracao para conexoes futuras a databases.
+- Robust pipeline that automates the process of training, evaluation and deployment of the model, which has an abstraction for future connections to databases.
   
-- API com sistema de seguranca basico e documentada.
+- API with basic and documented security system.
   
-- Chamadas/previsões de API devem gerar logs usando um registrador para monitoramento de modelo futuro.
+- API calls/predictions should be logged using a logger for future model monitoring.
   
-- Deploy do pipeline e api por meio de um docker.
+- Deploy the pipeline and api through a docker.
 
 <!-- Assumptions and Definitions -->
 # Assumptions and Definitions
 
-O cliente usará algum serviço de cloud, como Azure, AWS. O projeto desenvolvido pode  ser instanciado na melhor escolha para o cliente.
+Customer will use some cloud service such as Azure, AWS. The developed project can be instantiated in the best choice for the client.
 
 ## Pipeline Definiction - [Kedro]
 
-  Como foi demandado um pipeline robusto para todas as etapas do modelo e que ainda possua uma abstração para uma futura conexão com um database, o Kedro foi o framework escolhido. 
+  As a robust pipeline was required for all stages of the model and that still has an abstraction for a future connection to a database, Kedro was the chosen framework.
   
-  A necessidade por uma robustez pensando em melhorias futuras do modelo, visto que foi realizado um desenvolvimento rápido com muito espaço para melhorias, pesou na escolha ao invés de outros frameworks com a função parecida, mas com uma menor robustez, como por exemplo o DVC ou MetaFlow.
+  The need for robustness with a view to future improvements to the model, given that rapid development was carried out with a lot of room for improvement, weighed in on the choice over other frameworks with a similar function, but with less robustness, such as DVC or MetaFlow.
   
-  Além disso, o Kedro possui um excelente nível de abstração chamada DataCatalog, com conexões de databases mais utilizados no mercado, como AWS SageMaker, Hive, MongoDB, entre outros. A abstração utilizada foi CSVDataSet, visto que o arquivo estava em formato .csv.
+  In addition, Kedro has an excellent level of abstraction called DataCatalog, with connections to the most used databases on the market, such as AWS SageMaker, Hive, MongoDB, among others. The abstraction used was CSVDataSet, since the file was in .csv format.
   
-  Ainda é de fácil manutenção, possuindo arquivos especificos para modificações no database (catalog.yml) e nos parametros utilizados para construir o modelo (parameters.yml).
+  It is still easy to maintain, having specific files for modifying the database (catalog.yml) and the parameters used to build the model (parameters.yml).
   
-  Para o deploy do modelo foi construido um pipeline (_model_run()), o qual possui 4 nós. 
+  To deploy the model, a pipeline (_model_run()) was built, which has 4 nodes.
   
-  - get_train_cols: responsável por construir as colunas que seram utilizadas para treinamento.
-  - train_model: responsável por treinar todo o pipeline de transformação e do algoritmo do modelo.
-  - predict_model: responsável por realizar as predições do modelo.
-  - evaluate_model: responsável por aferir o desempenho do modelo.
+  - get_train_cols: responsible for building the columns that will be used for training.
+  - train_model: responsible for training the entire transformation pipeline and the model algorithm.
+  - predict_model: responsible for making model predictions.
+  - evaluate_model: responsible for assessing the performance of the model.
 
-A imagem abaixo exemplifica o fluxo:
+The image below exemplifies the flow:
 
- Adicionar kedro viz
+![alt text](https://github.com/laurapellizari/property_friends_real_state/blob/main/images/kedro_viz.png)
 
-## Versionamento - [MLFlow]
+## Versioning - [MLFlow]
 
-  Como uma boa prática, é impresendivel versionar código, dados e modelo. Dessa forma, o versionamento de código nesse caso é realizado no github, e para o vesionamento dos dados e do modelo foi implementado a interface com o MLFlow. 
+  As a good practice, it is essential to version code, data and model. In this way, the code versioning in this case is carried out on github, and for the versioning of the data and the model, the interface with MLFlow was implemented.
   
-  O MLFlow oferece serviçoes de tracking, packaging, reproducible runs e sharing. Além disso, possui uma interface com o kedro, facilitando o desenvolvimento. No próprio código de treinamento do modelo, salvamos o modelo, suas metricas e parametros, garantindo a interface futura com logs para monitoria, como desejado pelo cliente.
+  MLFlow offers tracking, packaging, reproducible runs and sharing services. In addition, it has an interface with kedro, facilitating development. In the model's training code itself, we save the model, its metrics and parameters, ensuring the future interface with logs for monitoring, as desired by the customer.
   
-  A imagem abaixo exemplifica a integração do MLFlow ao projeto:
+  The image below exemplifies the integration of MLFlow to the project:
+  ![alt text](https://github.com/laurapellizari/property_friends_real_state/blob/main/images/mlflow_1.png)
   
- Adicionar MLFlow
+  ![alt text](https://github.com/laurapellizari/property_friends_real_state/blob/main/images/mlflow_2.png)
+ 
+The kedro project and MLFlow implementations can be found in the directory property-friends-real-state.
 
-O projeto kedro e as implementações do MLFlow podem ser encontrado no diretório property-friends-real-state.
+## Application - [FastAPI]
 
-## Forma de utilização - [FastAPI]
-
-  Levou - se em consideração que um modelo batch atenderia as necessidades do cliente, descartando escolhas que visariam uma arquitetura um pouco mais robusta visando o streaming.
+   It was taken into account that a batch model would meet the needs of the client, discarding choices that would aim at a slightly more robust architecture aimed at streaming.
   
-  O framework de API escolhido foi FastAPI, visto que sua documentação gerada automaticamente é robusta e atende as necessidades do cliente. 
+  The chosen API framework was FastAPI, since its automatically generated documentation is robust and meets the customer's needs.
   
-  Para a construção da API foram levadas algumas boas práticas em consideração, como o versionamento, validação de dados via pydantic, prevenção a falhas com HTTPExceptions e uma atenticação via Header. 
+  For the construction of the API, some good practices were taken into account, such as versioning, data validation via pydantic, failure prevention with HTTPExceptions and authentication via Header.
   
-  A API é composta basicamente por duas rotas: uma get e outra post. A rota get é responsável por verificar a saúde da aplicação e a rota post por carregar o modelo salvo e realizar seu predict. 
+  The API is basically composed of two routes: one get and the other post. The get route is responsible for checking the health of the application and the post route for loading the saved model and performing its predict.
+  
+  The API project can be found in the property-friends-real-state-api directory.
 
 ## Deploy - [Docker]
 
-  Por fim, todo o processo é modularizado em um docker. Portanto, ao rodar o docker, o modelo será treinado via kedro, salvo via mlflow e exposto via fastapi.
+  Finally, the entire process is modularized in a docker. Therefore, when running docker, the model will be trained via kedro, saved via mlflow and exposed via FastAPI.
 
-<!-- Melhorias -->
-## Melhorias
+<!-- Improvements -->
+## Improvements
 
-  1. Atualmente, o container docker não expõe a porta do mlflow ui para o host, não sendo possível enxergar os experimentos e métricas diretamente da API. Consequentemente, a API enxerga um artefato estático. Dessa forma, uma possível melhoria seria a exposição dessa forma, e a implementação de uma maneira dinamica para ver o experimento direto do MLFlow via Docker.
-  2. Great-Expectations: Conforme o cliente queira dar mais robustez ao modelo, inserindo mais features ou conectando um database, é essencial monitorar os dados de entrada para que haja garantia de que são do tipo que o modelo espera. O framework great- expectations é uma ótima escolha para essa função.
-  3. AirFlow: Conforme o projeto evolua e o modelo necessite ser retreinado a cada período de tempo, seria interessante conectar a arquitetura ao Airflow, um orquestrador de modelos.
-  4. Autenticação: Da mesma forma, uma autenticação com maior robustez é impressendivel para garantir segurança. Uma sugestao seria JSON Web Token (JWT).
-  5. Escalabilidade: É importante alinhar com o cliente a latencia suficiente para abrangir o tráfigo de dados que ele pretende utilizar na API.
-  6. Design Patters: Elaboração de um código mais robusto visando as boas práticas de design patters, como por exemplo a inserção de um Singleton na implementação da API, garantindo a criação de uma só instancia de classe.
-  7. Performance ML: Pensando em gerar uma melhor performance do modelo, seria interessante pensar em uma arquitetura de implementação de testes A/B. Por exemplo, se o cliente optar por utilizar Kubernets, pode - se implementar o balanceador de carga AKS para os testes A/B.
-  8. CD4ML: Ao integrar o framework em alguma cloud, é interessante automatizar as melhorias que o cientista de dados possa vir a fazer no modelo. Uma maneira de fazer isso é por meio da implementação de pipelines de teste com premissas acordadas com o cliente. Integrando com cloud, Docker, Airflow DAG e ainda pode - se implementar em um pod no AKS para que a imagem do modelo seja implementada.
-  9. Monitoria: Com o uso do MLFlow podemos observar algumas nuances ao longo do tempo que possam vir a ser importantes para medir o desempenho d modelo, mas algumas outras implementações como o DataDrift podem ajudar a manter sempre o modelo com alta performance.
-  10. Budget: Talvez uma das coisas mais importantes, sempre procurar alinhar se a solução oferecida está dentro do orçamento do cliente.
-
+  1. Currently, the docker container does not expose the mlflow ui port to the host, and it is not possible to see the experiments and metrics directly from the API. Consequently, the API sees a static artifact. Thus, a possible improvement would be exposing it this way, and implementing a dynamic way to see the experiment directly from MLFlow via Docker.
+  2. Great-Expectations: As the customer wants to give more robustness to the model, inserting more features or connecting a database, it is essential to monitor the input data so that there is a guarantee that it is the type that the model expects. The great-expectations framework is a great choice for this role.
+  3. AirFlow: As the project evolves and the model needs to be retrained every period of time, it would be interesting to connect the architecture to Airflow, a model orchestrator.
+  4. Authentication: In the same way, more robust authentication is essential to guarantee security. A suggestion would be JSON Web Token (JWT).
+  5. Scalability: It is important to align with the client enough latency to cover the data traffic that he intends to use in the API.
+  6. Design Patters: Elaboration of a more robust code aiming at the good practices of design patters, such as the insertion of a Singleton in the API implementation, guaranteeing the creation of a single class instance.
+  7. ML Performance: Thinking about generating better model performance, it would be interesting to think about an A/B test implementation architecture. For example, if the customer chooses to use Kubernets, the AKS load balancer can be implemented for A/B testing.
+  8. CD4ML: When integrating the framework in some cloud, it is interesting to automate the improvements that the data scientist may make in the model. One way to do this is by implementing test pipelines with assumptions agreed upon with the customer. Integrating with cloud, Docker, Airflow DAG and it can even be deployed in a pod in AKS so that the model image is deployed.
+  9. Monitoring: With the use of MLFlow we can observe some nuances over time that may become important to measure the performance of the model, but some other implementations such as DataDrift can help to always keep the model with high performance.
+  10. Budget: Perhaps one of the most important things, always try to align whether the solution offered is within the customer's budget.
+      
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Para reproduzir o experimento, é necessário clonar o repositório, e subir os dados do cliente no seguinte diretorio:
+To reproduce the experiment, it is necessary to clone the repository, and upload the client data in the following directory:
 
   ```sh
   property-friends-real-state/data/01_raw
   ```
 
-Construir a imagem docker:
+Build the docker image:
+
   ```sh
     docker build -t deploy -f DockerFile .
   ```
 
-E roda - la:
+And run it:
+
   ```sh
   docker run -p 5000:5000 -p 8000:8000 deploy:lastest
   ```
 
-Uma API_Key disponibilizada é: api_key_1.
+An available API_Key is: api_key_1.
 
-Para rodar apenas o kedro e enxergar o kedro viz, assim como a ui do mlflow: 
+To run only kedro and see kedro viz, as well as the mlflow ui:
+
   ```sh
   cd property-friends-state-real
   ```
